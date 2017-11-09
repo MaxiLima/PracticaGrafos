@@ -111,6 +111,10 @@ public class Grafo {
 	public HashMap<Integer, ArrayList<Integer>> getMapAdy() {
 		return mapAdy;
 	}
+
+	public int[][] getMatrizAdy() {
+		return matrizAdy;
+	}
 	
 	
 }

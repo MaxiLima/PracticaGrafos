@@ -3,6 +3,7 @@ package main;
 import java.io.IOException;
 
 import algoritmos.Dijkstra;
+import algoritmos.Floyd;
 
 public class App {
 
@@ -14,11 +15,23 @@ public class App {
 		
 		Grafo grafo = new Grafo(pathIn, pathOut);
 		Dijkstra dijkstra = new Dijkstra();
-		int[] dist = new int[10];
-		dist = dijkstra.resolver(grafo, 2);
+		Floyd floyd = new Floyd();
+		int[] distDijkstra = new int[10];
+		int[][] distFloyd = new int [10][10];
 		
-		for (int i = 0; i < dist.length; i++) {
-			System.out.print(dist[i]+" ");
+		distDijkstra = dijkstra.resolver(grafo, 2);
+		distFloyd = floyd.resolver(grafo);
+		
+		for (int i = 0; i < distDijkstra.length; i++) {
+			System.out.print(distDijkstra[i]+" ");
+		}
+		System.out.println();
+		System.out.println();
+		for (int i = 0; i < distFloyd.length; i++) {
+			for (int j = 0; j < distFloyd.length; j++) {
+				System.out.print(distFloyd[i][j]+ "	");
+			}
+			System.out.println();
 		}
 	}
 
