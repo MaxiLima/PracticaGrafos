@@ -6,43 +6,35 @@ public class Dijkstra {
 	private int[] distancias;
 	private boolean[] vistos;
 	private int nodosVistos;
-	private int posMin;
 	private int[] recorrido;
-	private int nodoSig;
+	private int nodoAct;
 	
 	public int[] resolver(Grafo grafo, int nodoInicial) {
 		
 		this.inicializar(grafo, nodoInicial);
-		posMin = this.getPosMenor(this.distancias);
-		int min;
 		
+		nodoAct = this.getPosMenor(this.distancias);
+		this.vistos[nodoAct] = true;
+		this.nodosVistos++;
 		
-		for (int i = 0; i < distancias.length; i++) {
-			 
-			min = 999;
+		while(this.nodosVistos != grafo.getCantNodos()+1){
 			
-			for (int j = 0; j < distancias.length; j++) {
+			for (int i = 0; i < grafo.getMapAdy().get(nodoAct).size() ; i++) {
 				
-				if(min > this.distancias[i] && this.vistos[i] == false) {
-					nodoSig = i;
-					min = this.distancias[i];
-				}
-			}
-			
-			this.vistos[nodoSig] = true;
-			
-			for (int j = 0; j < distancias.length; j++) {
-				
-				if(this.vistos[i] != true) {
+				int indice = grafo.getMapAdy().get(nodoAct).get(i);
+				int pesoEnVec = grafo.getVectorAdy()[grafo.matAVec(nodoAct, indice)];
+				int comp = this.distancias[nodoAct] + pesoEnVec;
+				int distIndice = this.distancias[indice];
+				if ( comp < distIndice){
 					
-					if(min + grafo.getVectorAdy()[grafo.indicesMatAVec(nodoSig, i)] < this.distancias[i]) {
-						
-						this.distancias[i] = min + grafo.getVectorAdy()[grafo.indicesMatAVec(nodoSig, i)];
-						recorrido[i] = nodoSig;
-					}
+					this.distancias[indice] = comp;
+					this.recorrido[indice] = nodoAct;
 				}
 			}
 			
+			nodoAct = this.getPosMenor(this.distancias);
+			this.vistos[nodoAct] = true;
+			this.nodosVistos++;
 		}
 		
 		
@@ -54,7 +46,7 @@ public class Dijkstra {
 		distancias = new int[grafo.getCantNodos()+1];
 		
 		for (int i = 0; i < distancias.length; i++) {
-			distancias[i] = grafo.getVectorAdy()[grafo.indicesMatAVec(nodoInicial, i)];
+			distancias[i] = grafo.getVectorAdy()[grafo.matAVec(nodoInicial, i)];
 		}
 		
 		vistos = new boolean[grafo.getCantNodos()+1];
