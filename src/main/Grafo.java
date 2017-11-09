@@ -16,7 +16,7 @@ public class Grafo {
 	private int[] vectorAdy;
 	private int tamVectorAdy;
 	private ArrayList<ArrayList<Integer>> listaAdy;
-
+	private static int INF = 999;
 	//Constructor
 	public Grafo (String pathIn, String pathOut) throws IOException {
 		
@@ -25,12 +25,17 @@ public class Grafo {
 		cantNodos = sc.nextInt();
 		cantAristas = sc.nextInt();
 		
-		matrizAdy = new int[cantNodos+1][cantNodos+1];
-		tamVectorAdy = (int) ((Math.pow(cantNodos, 2)+cantNodos)/2);
-		vectorAdy = new int[tamVectorAdy];
-		listaAdy = new ArrayList<ArrayList<Integer>>(cantNodos);
+		int tam = cantNodos+1;
 		
-		//Cargo la matriz adyacente
+		matrizAdy = new int[tam][tam];
+		tamVectorAdy = (int) ((Math.pow(tam, 2)-(tam))/2);
+		vectorAdy = new int[tamVectorAdy];
+		listaAdy = new ArrayList<ArrayList<Integer>>(tam);
+		//Inicializo vector adyacente
+		for (int i = 0; i < vectorAdy.length; i++) {
+			vectorAdy[i] = INF;
+		}
+		//Cargo la matriz y vector adyacente
 		
 		for (int i = 0; i < cantAristas; i++) {
 			
@@ -41,11 +46,15 @@ public class Grafo {
 			matrizAdy[nodo1][nodo2] = peso;
 			matrizAdy[nodo2][nodo1]	= peso;
 			
+			vectorAdy[this.indicesMatAVec(nodo1, nodo2)] = peso;
+			
 		}
 		
 		this.mostrarMatrizAdy();
+		System.out.println();
+		this.mostrarVectorAdy();
 		
-		
+		sc.close();
 	}
 	
 	public void mostrarMatrizAdy() {
@@ -56,4 +65,39 @@ public class Grafo {
 			System.out.println();
 		}
 	}
+	
+	public void mostrarVectorAdy() {
+		for (int i = 0; i < vectorAdy.length; i++) {
+			System.out.print(vectorAdy[i]+ " ");
+		}
+		System.out.println(vectorAdy.length);
+	}
+	
+	public int indicesMatAVec(int fila, int col) {
+		
+		int valor;
+		if(fila>col)
+			valor = (int) (col*(cantNodos+1) + fila - ( Math.pow(col, 2) + 3*col + 2) /2);
+		else
+			valor = (int) (fila*(cantNodos+1) + col - ( Math.pow(fila, 2) + 3*fila + 2) /2);
+		return valor ;
+	}
+
+	public int getCantNodos() {
+		return cantNodos;
+	}
+
+	public int getCantAristas() {
+		return cantAristas;
+	}
+
+	public int getTamVectorAdy() {
+		return tamVectorAdy;
+	}
+
+	public int[] getVectorAdy() {
+		return vectorAdy;
+	}
+	
+	
 }
