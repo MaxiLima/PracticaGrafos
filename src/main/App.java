@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import algoritmos.Dijkstra;
 import algoritmos.Floyd;
+import algoritmos.Prim;
 
 public class App {
 
@@ -16,8 +17,11 @@ public class App {
 		Grafo grafo = new Grafo(pathIn, pathOut);
 		Dijkstra dijkstra = new Dijkstra();
 		Floyd floyd = new Floyd();
+		Prim prim = new Prim();
+		
 		int[] distDijkstra = new int[10];
 		int[][] distFloyd = new int [10][10];
+		
 		
 		distDijkstra = dijkstra.resolver(grafo, 2);
 		distFloyd = floyd.resolver(grafo);
@@ -33,6 +37,9 @@ public class App {
 			}
 			System.out.println();
 		}
+		
+		prim.resolver(grafo);
+		prim.imprimirPrim(grafo.getMatrizAdy());
 	}
 
 }

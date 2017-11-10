@@ -14,6 +14,7 @@ public class Grafo {
 	private int cantAristas;
 	private int[][] matrizAdy;
 	private int[] vectorAdy;
+	private Arco[] arcos;
 	private int tamVectorAdy;
 	private HashMap<Integer, ArrayList<Integer>> mapAdy;
 	private static int INF = 999;
@@ -27,6 +28,7 @@ public class Grafo {
 		
 		int tam = cantNodos+1;
 		
+		arcos = new Arco[cantAristas];
 		matrizAdy = new int[tam][tam];
 		tamVectorAdy = (int) ((Math.pow(tam, 2)-(tam))/2);
 		vectorAdy = new int[tamVectorAdy];
@@ -57,6 +59,15 @@ public class Grafo {
 			
 			vectorAdy[this.matAVec(nodo1, nodo2)] = peso;
 			
+			arcos[i] = new Arco(nodo1, nodo2, peso);
+			
+		}
+		
+		for (int i = 0; i < matrizAdy.length; i++) {
+			for (int j = 0; j < matrizAdy.length; j++) {
+				if(matrizAdy[i][j] == 0)
+					matrizAdy[i][j] = 999;
+			}
 		}
 		
 		this.mostrarMatrizAdy();
